@@ -1,0 +1,29 @@
+{
+    "Minion": {
+        "checkpoints": [
+            {
+                "steps": 9024,
+                "file_path": "results/minion_walk_001/Minion/Minion-9024.onnx",
+                "reward": null,
+                "creation_time": 1754990440.695681,
+                "auxillary_file_paths": [
+                    "results/minion_walk_001/Minion/Minion-9024.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 9024,
+            "file_path": "results/minion_walk_001/Minion.onnx",
+            "reward": null,
+            "creation_time": 1754990440.695681,
+            "auxillary_file_paths": [
+                "results/minion_walk_001/Minion/Minion-9024.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.11.0"
+    }
+}
