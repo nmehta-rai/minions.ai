@@ -1,0 +1,25 @@
+# =============== PYTHON ===============
+__pycache__/
+python/mlagents-env/
+python/logs/
+python/models/
+
+# =============== UNITY ===============
+minions-united/Library/
+minions-united/Temp/
+minions-united/Logs/
+minions-united/obj/
+minions-united/Build/
+minions-united/.vs/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.pidb
+*.booproj
+
+# =============== MAC OS STUFF ===============
+.DS_Store
+
+# =============== OTHERS ===============
+*.log
