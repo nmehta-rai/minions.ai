@@ -23,3 +23,22 @@ minions-united/.vs/
 
 # =============== OTHERS ===============
 *.log
+
+
+# Unity garbage
+minions-united/Library/
+minions-united/Temp/
+minions-united/Logs/
+minions-united/obj/
+minions-united/Build/
+minions-united/UserSettings/
+*.csproj
+*.sln
+*.user
+.DS_Store
+
+# ML-Agents generated files
+python/mlagents-env/
+python/results/
+python/models/
+__pycache__/
