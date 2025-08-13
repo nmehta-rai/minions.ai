@@ -1,0 +1,14 @@
+behaviors:
+  MinionWalk:
+    trainer_type: ppo
+    max_steps: 5e6
+    time_horizon: 64
+    summary_freq: 1000000
+    network_settings:
+      num_layers: 2
+      hidden_units: 256
+      normalize: true
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0

@@ -2,22 +2,22 @@
     "Minion": {
         "checkpoints": [
             {
-                "steps": 3584,
-                "file_path": "results/minion_walk_003/Minion/Minion-3584.onnx",
-                "reward": null,
-                "creation_time": 1754993827.308015,
+                "steps": 11331,
+                "file_path": "results/minion_walk_003/Minion/Minion-11331.onnx",
+                "reward": -30.332716291601006,
+                "creation_time": 1754995225.5630121,
                 "auxillary_file_paths": [
-                    "results/minion_walk_003/Minion/Minion-3584.pt"
+                    "results/minion_walk_003/Minion/Minion-11331.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 3584,
+            "steps": 11331,
             "file_path": "results/minion_walk_003/Minion.onnx",
-            "reward": null,
-            "creation_time": 1754993827.308015,
+            "reward": -30.332716291601006,
+            "creation_time": 1754995225.5630121,
             "auxillary_file_paths": [
-                "results/minion_walk_003/Minion/Minion-3584.pt"
+                "results/minion_walk_003/Minion/Minion-11331.pt"
             ]
         }
     },

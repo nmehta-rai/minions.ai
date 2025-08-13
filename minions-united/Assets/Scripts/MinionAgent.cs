@@ -2,11 +2,13 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
-using System.Collections;
 
 public class MinionAgent : Agent
 {
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private float moveForce = 10f;
+    [SerializeField] private float rewardMultiplier = 0.05f;
+
     private Vector3 lastPosition;
 
     public override void Initialize()
@@ -18,64 +20,58 @@ public class MinionAgent : Agent
 
         rb.drag = 0.2f;
         rb.angularDrag = 0.5f;
+        rb.centerOfMass = new Vector3(0f, -0.5f, 0f); // Lower center of mass
     }
 
     public override void OnEpisodeBegin()
     {
-        StartCoroutine(ResetAgent());
-    }
-
-    private IEnumerator ResetAgent()
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        transform.localPosition = new Vector3(0f, 0.5f, 0f);
-        transform.rotation = Quaternion.identity;
-
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        transform.rotation = Quaternion.identity;
 
         lastPosition = transform.localPosition;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition);    // 3
-        sensor.AddObservation(rb.velocity);               // 3
-        sensor.AddObservation(transform.up);              // 3
-        sensor.AddObservation(transform.forward);         // 3
-        sensor.AddObservation(rb.angularVelocity);        // 3
+        sensor.AddObservation(transform.localPosition);      // 3
+        sensor.AddObservation(rb.velocity);                 // 3
+        sensor.AddObservation(transform.up);                // 3 (uprightness)
+        sensor.AddObservation(transform.forward);           // 3 (direction)
+        sensor.AddObservation(rb.angularVelocity);          // 3
 
         // Total = 15
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float moveX = actions.ContinuousActions[0];  // sideways
-        float moveZ = actions.ContinuousActions[1];  // forward/back
+        float moveX = actions.ContinuousActions[0];
+        float moveZ = actions.ContinuousActions[1];
 
         Vector3 force = new Vector3(moveX, 0f, moveZ);
-        rb.AddForce(force * 10f);  // 🚀 Boosted force
+        rb.AddForce(force * moveForce);
 
-        // Encourage movement
+        // ➕ Reward: Forward Movement
         float distanceMoved = Vector3.Distance(transform.localPosition, lastPosition);
-        AddReward(distanceMoved * 0.1f);
+        AddReward(distanceMoved * rewardMultiplier);
         lastPosition = transform.localPosition;
 
-        // Gentle tipping penalty
-        if (transform.up.y < 0.6f)
-        {
-            AddReward(-0.05f);
-        }
+        // ➕ Reward: Uprightness
+        float uprightness = Vector3.Dot(transform.up, Vector3.up); // 0 to 1
+        AddReward(uprightness * 0.05f);
 
-        // Fell off
+        // ➖ Penalty: Spinning
+        AddReward(-rb.angularVelocity.magnitude * 0.01f);
+
+        // ❌ Fell off
         if (transform.localPosition.y < 0.1f)
         {
             SetReward(-1f);
             EndEpisode();
         }
 
-        // Win condition
+        // ✅ Reached goal
         if (transform.localPosition.z > 5f)
         {
             SetReward(+1f);
